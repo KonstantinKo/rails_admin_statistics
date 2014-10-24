@@ -5,7 +5,7 @@ h3 Cumulative Statistics
 = render 'graph', designator: 'cumulative', stats: @stats[:cumulative]
 
 
-= stylesheet_link_tag 'rails_admin_statistics.css', media: :all
-= javascript_include_tag 'jquery.flot.js'
-= javascript_include_tag 'jquery.flot.resize.js'
-= javascript_include_tag 'rails_admin_statistics.js'
+= stylesheet_link_tag 'rails_admin_statistics', media: :all
+= javascript_include_tag 'jquery.flot'
+= javascript_include_tag 'jquery.flot.resize'
+= javascript_include_tag 'rails_admin_statistics'
