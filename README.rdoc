@@ -1,0 +1,6 @@
+RailsAdmin Statistics
+=====================
+
+A simple statistics plugin for rails_admin.
+
+This project is licensed under the MIT-LICENSE.

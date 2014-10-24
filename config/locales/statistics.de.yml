@@ -1,0 +1,8 @@
+
+de:
+  admin:
+    actions:
+      statistics:
+        title: "Statistiken für %{model_label_plural}"
+        menu: 'Statistiken'
+        breadcrumb: 'Statistiken'

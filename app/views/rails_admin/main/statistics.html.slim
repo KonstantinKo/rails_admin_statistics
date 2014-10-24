@@ -1,0 +1,11 @@
+h3 Weekly Statistics
+= render 'graph', designator: 'weekly', stats: @stats[:weekly]
+
+h3 Cumulative Statistics
+= render 'graph', designator: 'cumulative', stats: @stats[:cumulative]
+
+
+= stylesheet_link_tag 'rails_admin_statistics.css', media: :all
+= javascript_include_tag 'jquery.flot.js'
+= javascript_include_tag 'jquery.flot.resize.js'
+= javascript_include_tag 'rails_admin_statistics.js'
