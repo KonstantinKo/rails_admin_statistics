@@ -89,4 +89,5 @@ showTooltip = (x, y, contents) ->
     left: x + 20
   ).appendTo('body').fadeIn()
 
-$(document).on 'rails_admin.dom_ready', buildGraphs
+$(document).on 'rails_admin.dom_ready', ->
+  setTimeout buildGraphs, 1
