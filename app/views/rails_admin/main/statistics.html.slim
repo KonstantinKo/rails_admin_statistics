@@ -1,11 +1,22 @@
-h3 Weekly Statistics
-= render 'graph', designator: 'weekly', stats: @stats[:weekly]
+- current_tab = @stats[params[:tab].to_i]
+ul.nav.nav-pills
+  - @stats.each_with_index do |stat_tab, index|
+    li class=(index == params[:tab].to_i ? 'active' : '')
+      = link_to stat_tab[:name], "?tab=#{index}"
 
-h3 Cumulative Statistics
-= render 'graph', designator: 'cumulative', stats: @stats[:cumulative]
+- current_tab.each do |key, data|
+  - next if key == :name
+  h3
+    => key.to_s.titleize
+  = render 'graph', designator: key, stats: data
+
+/ h3 Cumulative Statistics
+/ = render 'graph', designator: 'cumulative', stats: @stats[:cumulative]
 
 
 = stylesheet_link_tag 'rails_admin_statistics', media: :all
 = javascript_include_tag 'jquery.flot'
 = javascript_include_tag 'jquery.flot.resize'
+= javascript_include_tag 'jquery.flot.time'
+= javascript_include_tag 'tools'
 = javascript_include_tag 'rails_admin_statistics'

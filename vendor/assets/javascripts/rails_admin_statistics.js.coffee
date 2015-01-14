@@ -32,6 +32,9 @@ buildGraphs = ->
         borderColor: 'transparent'
         borderWidth: 20
         hoverable: true
+      xaxis:
+        mode: "time"
+        timeformat: "%b %Y"
 
     # Bar Chart
     bars = $wrapper.find('.graph-bars')
@@ -47,6 +50,9 @@ buildGraphs = ->
         borderColor: 'transparent'
         borderWidth: 20
         hoverable: true
+      xaxis:
+        mode: "time"
+        timeformat: "%b %Y"
 
     bars.hide()
 
@@ -78,7 +84,8 @@ buildGraphs = ->
           $('#tooltip').remove()
           x = item.datapoint[0]
           y = item.datapoint[1]
-          showTooltip(item.pageX, item.pageY, "#{y} #{seriesInfo[item.seriesIndex]} in calendar week #{x}")
+          week = new Date(x).getWeek()
+          showTooltip(item.pageX, item.pageY, "#{y} #{seriesInfo[item.seriesIndex]} in calendar week #{week}")
       else
         $('#tooltip').remove()
         previousPoint = null
@@ -90,4 +97,4 @@ showTooltip = (x, y, contents) ->
   ).appendTo('body').fadeIn()
 
 $(document).on 'rails_admin.dom_ready', ->
-  setTimeout buildGraphs, 1
+  setTimeout buildGraphs, 10
