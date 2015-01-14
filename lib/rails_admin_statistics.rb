@@ -2,21 +2,29 @@ require "rails_admin_statistics/engine"
 
 module RailsAdminStatistics
   def self.per_cweek
+    first_year = 2014 # config!
+    first_cweek = 37 # config!
     this_year = Time.now.year
     this_cweek = Time.now.to_date.cweek
 
-    (1..this_cweek).each do |cweek|
-      yield cweek, this_year
+    (first_year..this_year).each do |year|
+      start_cweek = (year == first_year ? first_cweek : 1)
+      end_cweek = (year == this_year ? this_cweek : 52)
+      (start_cweek..end_cweek).each do |cweek|
+        yield cweek, year
+      end
     end
   end
 
-  # inlcude => instance method / extend => class method
-  def stats
-    {
+  # include => instance method / extend => class method
+  def _stats
+    [{
+      name: 'General',
       weekly: _calculate_stats(true),
       cumulative: _calculate_stats(false)
-    }
+    }]
   end
+  alias :stats :_stats
 
   private
 
@@ -24,14 +32,16 @@ module RailsAdminStatistics
       @_stats = {created: []}
 
       RailsAdminStatistics.per_cweek do |cweek, year|
-        _calculate_stat :created, use_start_time, cweek, year
+        stat = _calculate_stat :created, use_start_time, cweek, year
+        @_stats[:created] << stat
       end
 
       if self.attribute_method? :approved_at
         @_stats[:approved] = []
 
         RailsAdminStatistics.per_cweek do |cweek, year|
-          _calculate_stat :approved, use_start_time, cweek, year
+          stat = _calculate_stat :approved, use_start_time, cweek, year
+          @_stats[:approved] << stat
         end
       end
 
@@ -45,7 +55,7 @@ module RailsAdminStatistics
       count = self.select(:id).where("#{field}_at <= ?", end_time)
       count = count.where("#{field}_at >= ?", start_time) if use_start_time
       count = count.count
-      @_stats[field] << [cweek, count]
+      [start_time.to_i * 1000, count]
     end
 end
 
@@ -66,7 +76,7 @@ module RailsAdmin
         end
 
         register_instance_option :controller do
-          Proc.new do
+          proc do
             @stats = @abstract_model.model.stats
 
             render action: :statistics
