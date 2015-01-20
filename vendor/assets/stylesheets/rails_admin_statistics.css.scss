@@ -6,6 +6,11 @@ $color2: '#77B7C5';
 $color3: '#D4D137';
 $color4: '#B474CE';
 $color5: '#7A3A20';
+$color6: '#6979FF';
+$color7: '#FC4FFF';
+$color8: '#CC582B';
+$color9: '#FFA24F';
+$color10: '#871C1F';
 */
 
 /* Resets */
@@ -88,15 +93,30 @@ $color5: '#7A3A20';
 .graph-info .legend2 { border-bottom: 2px solid #D4D137; }
 .graph-info .legend3 { border-bottom: 2px solid #B474CE; }
 .graph-info .legend4 { border-bottom: 2px solid #7A3A20; }
+.graph-info .legend4 { border-bottom: 2px solid #6979FF; }
+.graph-info .legend4 { border-bottom: 2px solid #FC4FFF; }
+.graph-info .legend4 { border-bottom: 2px solid #CC582B; }
+.graph-info .legend4 { border-bottom: 2px solid #FFA24F; }
+.graph-info .legend4 { border-bottom: 2px solid #871C1F; }
 
 .graph-info .legend0:before { background: #71C73E; }
 .graph-info .legend1:before { background: #77B7C5; }
 .graph-info .legend2:before { background: #D4D137; }
 .graph-info .legend3:before { background: #B474CE; }
 .graph-info .legend4:before { background: #7A3A20; }
+.graph-info .legend4:before { background: #6979FF; }
+.graph-info .legend4:before { background: #FC4FFF; }
+.graph-info .legend4:before { background: #CC582B; }
+.graph-info .legend4:before { background: #FFA24F; }
+.graph-info .legend4:before { background: #871C1F; }
 
-/* Lines & Bars Buttons */
-.lines, .bars {
+.graph-info .active.legend {
+  border-bottom-color: gray;
+  &:before { background: gray; }
+}
+
+/* Lines Buttons */
+.lines {
   width: 34px;
   height: 28px;
   padding: 0;
@@ -107,7 +127,7 @@ $color5: '#7A3A20';
   cursor: pointer;
 }
 
-.lines.active, .bars.active {
+.lines.active {
   background: #82d344;
   background: -moz-linear-gradient(top, #82d344 0%, #71c73e 100%);
   background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#82d344), color-stop(100%,#71c73e));
@@ -117,7 +137,7 @@ $color5: '#7A3A20';
   background: linear-gradient(to bottom, #82d344 0%,#71c73e 100%);
 }
 
-.lines div, .bars div {
+.lines div {
   font-size: 25px;
   padding: 3px
 }

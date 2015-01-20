@@ -6,7 +6,10 @@ buildGraphs = ->
     rawData = $wrapper.data('stats');
     graphData = []
     seriesInfo = {}
-    colors = ['#71C73E', '#77B7C5', '#D4D137', '#B474CE', '#7A3A20']
+    colors = [
+      '#71C73E', '#77B7C5', '#D4D137', '#B474CE', '#7A3A20', '#6979FF',
+      '#FC4FFF', '#CC582B', '#FFA24F', '#871C1F'
+    ]
 
     for key, value of rawData
       seriesInfo[graphData.length] = key
@@ -19,7 +22,7 @@ buildGraphs = ->
 
     # Line Chart
     lines = $wrapper.find('.graph-lines')
-    $.plot lines, graphData,
+    plot = $.plot lines, graphData,
       series:
         points:
           show: true
@@ -36,48 +39,11 @@ buildGraphs = ->
         mode: "time"
         timeformat: "%b %Y"
 
-    # Bar Chart
-    bars = $wrapper.find('.graph-bars')
-    $.plot bars, graphData,
-      series:
-        bars:
-          show: true
-          barWidth: 0.9
-          align: 'center'
-        shadowSize: 0
-      grid:
-        color: '#646464'
-        borderColor: 'transparent'
-        borderWidth: 20
-        hoverable: true
-      xaxis:
-        mode: "time"
-        timeformat: "%b %Y"
-
-    bars.hide()
-
     linesBtn = $wrapper.find('.lines')
-    barsBtn = $wrapper.find('.bars')
-
-    linesBtn.on 'click', (e) ->
-      barsBtn.removeClass 'active'
-      bars.fadeOut()
-      $(this).addClass 'active'
-      lines.fadeIn()
-      e.preventDefault()
-
-    barsBtn.on 'click', (e) ->
-      linesBtn.removeClass 'active'
-      lines.fadeOut()
-      $(this).addClass 'active'
-      bars.fadeIn().removeClass 'hidden'
-      e.preventDefault()
-
-
 
     previousPoint = null
 
-    $wrapper.find('.graph-lines, .graph-bars').bind 'plothover', (event, pos, item) ->
+    $wrapper.find('.graph-lines').bind 'plothover', (event, pos, item) ->
       if item
         if previousPoint isnt item.dataIndex
           previousPoint = item.dataIndex
@@ -89,6 +55,16 @@ buildGraphs = ->
       else
         $('#tooltip').remove()
         previousPoint = null
+
+    # Visibility toggle on legend click
+    $wrapper.find('.legend.btn').on 'click', (e) ->
+      $(this).toggleClass 'active'
+      idx = $(this).data('idx')
+      dataSet = plot.getData()
+      dataSet[idx].lines.show = !dataSet[idx].lines.show
+      dataSet[idx].points.show = !dataSet[idx].points.show
+      plot.setData(dataSet)
+      plot.draw()
 
 showTooltip = (x, y, contents) ->
   $('<div id="tooltip">' + contents + '</div>').css(

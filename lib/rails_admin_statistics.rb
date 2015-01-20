@@ -1,4 +1,5 @@
 require "rails_admin_statistics/engine"
+#require 'pry'
 
 module RailsAdminStatistics
   def self.per_cweek
@@ -81,6 +82,22 @@ module RailsAdmin
 
             render action: :statistics
           end
+        end
+      end
+    end
+
+    class Model
+      register_instance_option :statistics do
+      end
+    end
+
+    module Sections
+      class Statistics < RailsAdmin::Config::Sections::Base
+        register_instance_option :first_year do
+          Time.now.year
+        end
+        register_instance_option :first_cweek do
+          Time.now.strftime("%U").to_i
         end
       end
     end
